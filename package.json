@@ -1,0 +1,63 @@
+{
+  "name": "bagitovsext",
+  "displayName": "Bagisto auto suggesstion",
+  "description": "Bagisto auto suggesstion vs code extention",
+  "version": "1.0.0",
+  "publisher": "Webkul",
+  "icon": "./src/images/icon.png",
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "keywords": [
+    "autocompletion",
+    "snippet",
+    "webkul",
+    "bagisto"
+  ],
+  "categories": [
+    "Programming Languages",
+    "Snippets"
+  ],
+  "activationEvents": [
+    "onLanguage:php"
+  ],
+  "main": "./src/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "php",
+        "extensions": [
+          ".php"
+        ]
+      }
+    ],
+    "commands": [
+      {
+        "command": "extension.generateClassTemplate",
+        "title": "Bagisto PHP Class Template",
+        "category": "Bagisto Tools"
+      },
+      {
+        "command": "extension.createModule",
+        "title": "Create Bagisto Module",
+        "category": "Bagisto Tools"
+      }
+    ]
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "@types/vscode": "^1.95.0",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1",
+    "eslint": "^9.16.0"
+  },
+  "dependencies": {
+    "find": "^0.3.0"
+  }
+}
