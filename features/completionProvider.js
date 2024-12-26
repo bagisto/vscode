@@ -80,7 +80,14 @@ function createCompletionProvider() {
 
 function eventCompletionProvider() {
     return {
-        provideCompletionItems() {
+        provideCompletionItems: async (document, position) => {
+            const wordRange = document.getWordRangeAtPosition(position);
+            const currentWord = document.getText(wordRange);
+
+            if (!currentWord.startsWith('wkev')) {
+                return null
+            }
+
             const events = [];
 
             const workspaceFolders = vscode.workspace.workspaceFolders;
