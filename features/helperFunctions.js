@@ -15,10 +15,14 @@ function validateConstructArea(document, position) {
 
     const constructMatch = documentText.match(/public\s+function\s+__construct\s*\(([\s\S]*?)\)/);
 
-    if (!constructMatch) return false;
+    if (! constructMatch) {
+        return false;
+    }
 
     const [constructDeclaration] = constructMatch;
+
     const constructStart = documentText.indexOf(constructDeclaration);
+
     const constructEnd = constructStart + constructDeclaration.length;
 
     const cursorOffset = document.offsetAt(position);
@@ -35,12 +39,16 @@ function validateConstructArea(document, position) {
  */
 function parseUseStatements(documentText) {
     const useRegex = /^use\s+(Webkul\\[^\s{;]+)(?:\s+as\s+([\w]+))?(?:\{([^}]+)\})?;/gm;
+
     const matches = [...documentText.matchAll(useRegex)];
+
     const importedClasses = [];
 
     for (const match of matches) {
         const baseNamespace = match[1];
+
         const alias = match[2];
+
         const groupedClasses = match[3];
 
         if (groupedClasses) {
@@ -64,12 +72,15 @@ function parseUseStatements(documentText) {
  */
 function parseConstructInjectedClasses(documentText) {
     const constructRegex = /__construct\([\s\S]*?\)/;
+
     const constructMatch = documentText.match(constructRegex);
 
     if (!constructMatch) return [];
 
     const paramsRegex = /protected\s+([\w\\]+)\s+\$[\w]+/g;
+
     const matches = [...constructMatch[0].matchAll(paramsRegex)];
+
     return matches.map(match => match[1]);
 }
 
@@ -81,8 +92,11 @@ function parseConstructInjectedClasses(documentText) {
 function getNamespaceFromFile(filePath) {
     try {
         const content = fs.readFileSync(filePath, 'utf8');
+
         const namespaceMatch = content.match(/namespace\s+([^\s;]+)\s*;/);
+
         const classNameMatch = path.basename(filePath, '.php');
+
         return namespaceMatch ? `${namespaceMatch[1]}\\${classNameMatch}` : null;
     } catch (error) {
         return null;
@@ -114,6 +128,7 @@ function findDirectories(basePath, namePattern) {
         }
     } catch (err) {
     }
+
     return directories;
 }
 
@@ -139,6 +154,7 @@ function getAllPhpFiles(dirPath) {
         }
     } catch (err) {
     }
+
     return phpFiles;
 }
 
@@ -152,18 +168,22 @@ function extractEventsFromContent(content) {
 
     // Regex for events
     const viewRenderRegex = /view_render_event\('([^']+)'(?:, ?(.+))?\)/g;
+
     const dispatchRegex = /Event::dispatch\('([^']+)'(?:, ?(.+))?\)/g;
 
     let match;
 
     while ((match = viewRenderRegex.exec(content)) !== null) {
         const eventName = match[1];
+
         const parameter = match[2] ? match[2].trim() : null;
+
         const insertText = `Event::listen('${eventName}', function (\\$viewRenderEventManager) {\n` +
             `    \\$viewRenderEventManager->addTemplate('');\n` +
             `});`
 
         let lable = parameter ? `${eventName} | ${parameter}` : eventName;
+
         lable = 'Webkul Event Rander:' + lable;
 
         events.push({
@@ -177,9 +197,13 @@ function extractEventsFromContent(content) {
 
     while ((match = dispatchRegex.exec(content)) !== null) {
         const eventName = match[1];
+
         const parameter = match[2] ? match[2].trim() : null;
+
         const insertText = `Event::listen('${eventName}', );`
+
         let lable = parameter ? `${eventName} | ${parameter}` : eventName;
+
         lable = 'Webkul Event Dispatch: ' + lable;
 
         events.push({
@@ -193,7 +217,6 @@ function extractEventsFromContent(content) {
 
     return events;
 }
-
 
 module.exports = {
     validateConstructArea,

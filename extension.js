@@ -12,7 +12,6 @@ const createModule = require('./features/createModuel');
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
-
     // Class importer completion provider.
     context.subscriptions.push(
         vscode.languages.registerCompletionItemProvider(
