@@ -3,11 +3,15 @@
   "displayName": "Bagisto auto suggesstion",
   "description": "Bagisto auto suggesstion vs code extention",
   "version": "1.0.0",
-  "publisher": "Webkul",
-  "icon": "./src/images/icon.png",
+  "publisher": "Bagisto",
+  "icon": "images/icon.png",
   "engines": {
     "vscode": "^1.95.0"
   },
+  "repository": {
+		"type": "git",
+		"url": "https://github.com/bagisto/vscode.git"
+	},
   "keywords": [
     "autocompletion",
     "snippet",
@@ -21,7 +25,7 @@
   "activationEvents": [
     "onLanguage:php"
   ],
-  "main": "./src/extension.js",
+  "main": "./extension.js",
   "contributes": {
     "languages": [
       {
