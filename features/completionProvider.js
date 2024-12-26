@@ -19,6 +19,7 @@ function createCompletionProvider() {
     return {
         provideCompletionItems: async (document, position) => {
             const wordRange = document.getWordRangeAtPosition(position);
+
             const currentWord = document.getText(wordRange);
 
             const keywordMap = {
@@ -29,16 +30,17 @@ function createCompletionProvider() {
                 "cn": "Contracts"
             };
 
-            const keyword = currentWord.slice(2, 4).toLowerCase();;
+            const keyword = currentWord.slice(2, 4).toLowerCase();
+
             const dirName = keywordMap[keyword];
 
-            if (!dirName) {
+            if (! dirName) {
                 return undefined;
             }
 
             const workspaceFolders = vscode.workspace.workspaceFolders;
 
-            if (!workspaceFolders) {
+            if (! workspaceFolders) {
                 return undefined;
             }
 
@@ -47,7 +49,7 @@ function createCompletionProvider() {
             for (const folder of workspaceFolders) {
                 const basePath = path.join(folder.uri.fsPath, 'packages/Webkul');
 
-                if (!fs.existsSync(basePath)) {
+                if (! fs.existsSync(basePath)) {
                     continue; // Skip if the base path doesn't exist
                 }
 
@@ -66,7 +68,9 @@ function createCompletionProvider() {
                                 vscode.CompletionItemKind.Snippet
                             );
                             completionItem.insertText = `use ${namespace};`;
+
                             completionItem.documentation = new vscode.MarkdownString(`Namespace: ${namespace}`);
+                            
                             suggestions.push(completionItem);
                         }
                     }
@@ -84,7 +88,7 @@ function eventCompletionProvider() {
             const wordRange = document.getWordRangeAtPosition(position);
             const currentWord = document.getText(wordRange);
 
-            if (!currentWord.startsWith('wkev')) {
+            if (! currentWord.startsWith('wkev')) {
                 return null
             }
 
@@ -92,27 +96,29 @@ function eventCompletionProvider() {
 
             const workspaceFolders = vscode.workspace.workspaceFolders;
 
-            if (!workspaceFolders) {
+            if (! workspaceFolders) {
                 return null;
             }
 
             for (const folder of workspaceFolders) {
                 const basePath = path.join(folder.uri.fsPath, 'packages/Webkul');
 
-                if (!fs.existsSync(basePath)) {
-                    continue; // Skip if the base path doesn't exist
+                if (! fs.existsSync(basePath)) {
+                    continue;
                 }
 
                 const phpFiles = getAllPhpFiles(basePath);
 
                 phpFiles.forEach((file) => {
                     const content = fs.readFileSync(file, 'utf-8');
+
                     events.push(...extractEventsFromContent(content));
                 });
             }
 
             return events.map((event) => {
                 const insertText = new vscode.SnippetString(event.insertText);
+                
                 const item = new vscode.CompletionItem(event.lable, vscode.CompletionItemKind.Snippet);
 
                 item.insertText = insertText;
@@ -135,13 +141,18 @@ function dependencyInjectionCompletionProvider() {
     return {
         provideCompletionItems: (document, position) => {
             const documentText = document.getText();
+
             const lineText = document.lineAt(position).text;
 
             // Ensure the trigger text includes "wkpr"
-            if (!lineText.includes('wkpr')) return;
+            if (! lineText.includes('wkpr')) {
+                return;
+            }
 
             // Validate Construct Area
-            if (!validateConstructArea(document, position)) return;
+            if (! validateConstructArea(document, position)) {
+                return;
+            }
 
             // Get all `use` statements starting with Webkul
             const allClasses = parseUseStatements(documentText);
@@ -152,7 +163,9 @@ function dependencyInjectionCompletionProvider() {
             // Filter classes not used in __construct
             const filteredClasses = allClasses.filter(cls => {
                 const classNameParts = cls.split('\\');
+
                 const lastPart = classNameParts[classNameParts.length - 1];
+
                 return !injectedClasses.includes(lastPart);
             });
 
@@ -161,8 +174,11 @@ function dependencyInjectionCompletionProvider() {
 
             return filteredClasses.map(cls => {
                 const className = cls.split('\\').pop();
+                
                 const item = new vscode.CompletionItem(`protected ${cls}`, vscode.CompletionItemKind.Class);
+                
                 item.insertText = `protected ${className} \$${className.charAt(0).toLowerCase() + className.slice(1)},`;
+                
                 item.documentation = new vscode.MarkdownString(`Insert protected dependency for ${cls}.`);
 
                 item.label = `Webkul:protected ${className} \$${className.charAt(0).toLowerCase() + className.slice(1)}`;
@@ -177,13 +193,14 @@ function createClassCompletionProvider() {
     return {
         provideCompletionItems: async (document, position) => {
             const wordRange = document.getWordRangeAtPosition(position);
+
             const currentWord = document.getText(wordRange);
 
             const keywordMap = ["cl"];
 
             const keyword = currentWord.slice(2, 4).toLowerCase();
 
-            if (!keywordMap.includes(keyword)) {
+            if (! keywordMap.includes(keyword)) {
                 return undefined;
             }
 

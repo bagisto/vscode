@@ -14,7 +14,10 @@ async function createModule() {
             placeHolder: 'e.g., POS',
             validateInput: (input) => input ? null : 'Module name cannot be empty.'
         });
-        if (!moduleNameInput) return;
+
+        if (! moduleNameInput) {
+            return;
+        }
 
         const moduleName = moduleNameInput.charAt(0).toUpperCase() + moduleNameInput.slice(1).toLowerCase();
 
@@ -29,6 +32,7 @@ async function createModule() {
         }
 
         const workspacePath = workspaceFolders[0].uri.fsPath;
+
         const modulePath = path.join(workspacePath, `packages/Webkul/${moduleName}`);
 
         // Step 4: Create Directory Structure
@@ -43,7 +47,9 @@ async function createModule() {
 
         // Step 5: Generate Files with Templates
         const serviceProviderPath = path.join(modulePath, 'src/Provider', `${moduleName}ServiceProvider.php`);
+        
         const controllerPath = path.join(modulePath, 'src/Http/Controllers', 'Controller.php');
+        
         const routesPath = path.join(modulePath, 'src/Routes', 'web.php');
 
         // Write content using templates

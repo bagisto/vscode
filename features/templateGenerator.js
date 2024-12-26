@@ -44,6 +44,7 @@ function generateClassTemplate(filePath) {
     const parts = filePath.split(path.sep);
 
     const packagesIndex = parts.findIndex((part) => part.toLowerCase() === 'packages');
+    
     if (packagesIndex === -1) {
         throw new Error('"packages" directory not found in the file path');
     }

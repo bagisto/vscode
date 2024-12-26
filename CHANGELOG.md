@@ -14,3 +14,10 @@
 
 ---
 
+## [1.0.1] - 2024-12-26
+
+- Fixed minor bugs and compatibility issues.
+
+## [1.0.2] - 2024-12-26
+
+- Readme file updated.
