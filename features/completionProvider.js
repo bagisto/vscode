@@ -2,6 +2,7 @@ const vscode = require('vscode');
 const path = require('path');
 const fs = require('fs');
 const { generateClassTemplate } = require('./templateGenerator')
+
 const {
     validateConstructArea,
     parseUseStatements,
@@ -50,7 +51,7 @@ function createCompletionProvider() {
                 const basePath = path.join(folder.uri.fsPath, 'packages/Webkul');
 
                 if (! fs.existsSync(basePath)) {
-                    continue; // Skip if the base path doesn't exist
+                    continue;
                 }
 
                 // Recursively find directories matching `dirName`
@@ -67,6 +68,7 @@ function createCompletionProvider() {
                                 `use ${namespace};`,
                                 vscode.CompletionItemKind.Snippet
                             );
+
                             completionItem.insertText = `use ${namespace};`;
 
                             completionItem.documentation = new vscode.MarkdownString(`Namespace: ${namespace}`);
@@ -86,6 +88,7 @@ function eventCompletionProvider() {
     return {
         provideCompletionItems: async (document, position) => {
             const wordRange = document.getWordRangeAtPosition(position);
+
             const currentWord = document.getText(wordRange);
 
             if (! currentWord.startsWith('wkev')) {
@@ -122,6 +125,7 @@ function eventCompletionProvider() {
                 const item = new vscode.CompletionItem(event.lable, vscode.CompletionItemKind.Snippet);
 
                 item.insertText = insertText;
+
                 item.label = event.lable;
 
                 item.detail = 'Bagisto Events';

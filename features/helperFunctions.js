@@ -75,7 +75,9 @@ function parseConstructInjectedClasses(documentText) {
 
     const constructMatch = documentText.match(constructRegex);
 
-    if (!constructMatch) return [];
+    if (! constructMatch) {
+        return [];
+    }   
 
     const paramsRegex = /protected\s+([\w\\]+)\s+\$[\w]+/g;
 

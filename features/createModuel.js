@@ -26,7 +26,8 @@ async function createModule() {
 
         // Step 3: Define Module Path
         const workspaceFolders = vscode.workspace.workspaceFolders;
-        if (!workspaceFolders) {
+        
+        if (! workspaceFolders) {
             vscode.window.showErrorMessage('Please open a workspace folder first.');
             return;
         }
@@ -43,6 +44,7 @@ async function createModule() {
             `${modulePath}/src/Http/Controllers`,
             `${modulePath}/src/Routes`
         ];
+
         dirs.forEach((dir) => fs.mkdirSync(dir, { recursive: true }));
 
         // Step 5: Generate Files with Templates
