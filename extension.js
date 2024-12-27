@@ -1,11 +1,14 @@
 const vscode = require('vscode');
+
 const {
     createCompletionProvider,
     dependencyInjectionCompletionProvider,
     createClassCompletionProvider,
     eventCompletionProvider
 } = require('./features/completionProvider');
+
 const { createClassTemplate } = require('./features/templateGenerator');
+
 const createModule = require('./features/createModuel');
 
 /**

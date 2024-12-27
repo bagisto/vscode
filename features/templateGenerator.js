@@ -8,8 +8,9 @@ const vscode = require('vscode');
 function createClassTemplate() {
     const editor = vscode.window.activeTextEditor;
 
-    if (!editor) {
+    if (! editor) {
         vscode.window.showErrorMessage('No active editor found!');
+        
         return;
     }
 
@@ -17,7 +18,8 @@ function createClassTemplate() {
     const filePath = document.fileName;
 
     try {
-        if (!filePath || !filePath.endsWith('.php')) {
+        if (! filePath 
+            || ! filePath.endsWith('.php')) {
             throw new Error('The current file must be a PHP file!');
         }
 
@@ -37,7 +39,7 @@ function createClassTemplate() {
  * @returns {{ namespace: string, className: string, template: string }} - The generated namespace, class name, and template.
  */
 function generateClassTemplate(filePath) {
-    if (!filePath) {
+    if (! filePath) {
         throw new Error('Invalid file path provided');
     }
 
