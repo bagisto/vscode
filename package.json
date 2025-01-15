@@ -2,7 +2,7 @@
   "name": "autosuggest",
   "displayName": "Bagisto auto suggestion",
   "description": "Bagisto auto suggestion vs code extension",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "publisher": "Bagisto",
   "icon": "images/icon.png",
   "engines": {
