@@ -1,4 +1,4 @@
-# Bagisto Auto Suggesstion Extension
+# Bagisto Auto Suggestion Extension
 
 ## Overview
 This Visual Studio Code extension is specifically designed to enhance productivity when developing Bagisto-based PHP projects. It provides several powerful features to simplify and speed up the coding process by offering auto-suggestions, commands, and tools tailored for <a href="https://bagisto.com/" target="_blank" rel="Bagisto">open source ecommerce</a> development.
